@@ -14,12 +14,24 @@ Parte 2:
   lo he probado.
 - No he hecho la documentación de la API con Swagger.
 
-Rutas del servicio (base http://localhost:8080/dsaApp/flota):
-- POST /planes: crear plan de vuelo. Devuelve 201, 400 si faltan datos y 409 si el dron
-  está en el almacén o el plan se solapa.
-- GET /drones/horas: lista de drones por horas de vuelo. Devuelve 200.
-- PUT /almacen/{idDron}: guarda un dron en el almacén. Devuelve 204.
-- GET /pilotos/{idPiloto}/planes: planes de un piloto. Devuelve 200.
+Definición del servicio REST
+
+Servicio: ServicioDrones. Ruta base: http://localhost:8080/dsaApp/flota. Formato: JSON.
+
+| Operación | Método y ruta | Petición | Respuesta | Códigos |
+|---|---|---|---|---|
+| Crear plan de vuelo | POST /planes | JSON con idDron, idPiloto, fecha, duracionHoras y posiciones | Plan creado | 201; 400 faltan datos; 409 dron en almacén o plan solapado |
+| Drones por horas de vuelo | GET /drones/horas | Sin cuerpo | Lista de drones | 200 |
+| Guardar dron en el almacén | PUT /almacen/{idDron} | Sin cuerpo | Sin cuerpo | 204 |
+| Planes de un piloto | GET /pilotos/{idPiloto}/planes | Sin cuerpo | Lista de planes | 200 |
+
+Ejemplo de petición para crear un plan:
+
+```json
+{ "idDron": "D1", "idPiloto": "P1", "fecha": "2026-11-10T10:00",
+  "duracionHoras": 2, "posiciones": [ { "latitud": 41.27, "longitud": 1.98 } ] }
+```
+Se devuelven objetos de transferencia (DronDTO, PlanDeVueloDTO, PosicionDTO) para evitar ciclos.
 
 Errores y problemas encontrados
 
